@@ -1,5 +1,7 @@
 JS Record Store
 
+CodeClan week 10 Javascript homework
+
 Learning Objectives
 
 Implement an OO JS program using the 'new' keyword
