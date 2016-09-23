@@ -1,0 +1,17 @@
+{
+  "name": "record_store_homework",
+  "version": "1.0.0",
+  "description": "JS Record Store",
+  "main": "record.js",
+  "scripts": {
+    "test": "mocha specs"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^3.0.2"
+  },
+  "dependencies": {
+    "lodash": "^4.16.1"
+  }
+}
