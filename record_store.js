@@ -91,6 +91,21 @@ RecordStore.prototype = {
   },
 
   inventoryValue: function(){
+    // done use a for (item of array) loop
+    // var total = 0;
+    // for (var item of this.inventory){
+    //   total += item.price;
+    // }
+    // return total;
+
+// done using a different for loop
+    // var total = 0;
+    // for (var i = 0; i < this.inventory.length; i++){
+    //   total += this.inventory[i].price;
+    // }
+    // return total
+
+// done using lodash's forEach method
     var total = 0;
     _.forEach(this.inventory,
         function(item){

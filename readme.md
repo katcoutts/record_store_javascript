@@ -22,3 +22,7 @@ Create a method that reports on the financial situation of the store. Cash and v
 Create a RecordCollector (or customer) constructor who can buy and sell records.
 If you choose to, you can use lodash for enumerable functionality.
 Use TDD all the way through!
+
+
+In addition to the above I experimented with different filtering methods and thought about the need to change the price of records when a store buys something new which it will then want to sell on. I also considered how the program may be used, such as you may want to filter the inventory and have a method which returns the actual objects so you can then go on and do something further with the objects - such as print them in a nice list for reference.
+I have also investigated setting default values and the pros and cons of different ways of doing this.
