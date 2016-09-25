@@ -98,6 +98,7 @@ RecordStore.prototype = {
     return "Store balance: " + this.balance + "\nInventory value: " + this.inventoryValue();
   },
 
+// the below alteration to the record price means the store won't put the record available for sale for what it paid for it as it needs to make profit. An alternative might be to have a boughtRecords variable within RecordStore which is an array. When you buy a record you put it in there. And then there's another step to put the record on sale in which you set the price and add it to the inventory, as this model is assuming that records in the inventory are at the point of being for sale.
   buyRecordFromSeller: function(seller, record, markup){
     if (this.balance >= record.price){
     seller.sellRecord(record); 
