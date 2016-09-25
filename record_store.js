@@ -50,14 +50,6 @@ RecordStore.prototype = {
     return newRecords;
   },
 
-  prettyListCallback: function(callback, param){
-    var records = callback(param);
-    var newArray = records.map(function(item){
-      return "Artist: " + item['artist'] + ", Title: " + item['title'] + ", Price: " + item['price'];
-    });
-    var result = newArray.join('\n');
-    return result;
-  },
 
   prettyList: function(records){
     var newList = _.sortBy(records, ['artist', 'price', 'title']);
@@ -68,13 +60,26 @@ RecordStore.prototype = {
     return result;
   },
 
-  findRecordsUnderPrice: function(value){
-    var records = [];
-    for (var item of this.inventory){
-      if(item.price <= value){
-        records.push(item);
-      }
-    }
+  findRecordsUnderPrice: function(price){
+    // an alternative method that saves a method to a variable and uses that method in Array.prototype's filter that also works
+    // var isLessThan = function(item){
+    //   return item.price <= price
+    // }
+    // records = this.inventory.filter(isLessThan);
+    // return records;
+
+    // an alternative method from scratch that works
+    // var records = [];
+    // for (var item of this.inventory){
+    //   if(item.price <= price){
+    //     records.push(item);
+    //   }
+    // }
+    // var newRecords = _.sortBy(records, ['price', 'artist', 'title']);
+    // return newRecords;
+
+// a method using lodash and an anonymous function
+    records = _.filter(this.inventory, function(item){return item.price <= price});
     var newRecords = _.sortBy(records, ['price', 'artist', 'title']);
     return newRecords;
   },

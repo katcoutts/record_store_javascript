@@ -83,11 +83,6 @@ describe ('RecordStore', function(){
     console.log(hannahsHits.prettyList(hannahsHits.findRecordsUnderPrice(5)));
   })
 
-// WOULD LIKE TO KNOW HOW TO GET BELOW TO WORK - HAVE TWEAKED THE SYNTAX LOTS OF DIFFERENT WAYS BUT ALWAYS END UP WITH SOMETHING LIKE CALLBACK IS NOT DEFINED OR FINDRECORDSBYARTIST IS NOT DEFINED. THE BELOW IS NOT ERRORING AS IT'S WRITTEN NOW BUT IT'S NOT PRINTING ANYTHING AT ALL.
-  it("can print pretty lists for different functions via callback", function(){
-    hannahsHits.addRecord(twoone);
-    console.log(hannahsHits.prettyListCallback(hannahsHits.findRecordsByArtist, "Spice Girls"));
-  })
 
   it("can buy from a collector and reset price", function(){
     hannahsHits.buyRecordFromSeller(gordon, gone);
