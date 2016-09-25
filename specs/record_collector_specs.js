@@ -32,6 +32,11 @@ describe ('RecordCollector', function(){
     assert.deepEqual(51.99, gordon.balance);
   })
 
+  it("can sell a record and set selling price at time of selling", function(){
+    gordon.sellRecord(stop, 10.99);
+    assert.deepEqual(60.99, gordon.balance);
+  })
+
   it("can buy a record", function(){
     gordon.buyRecord(gone);
     assert.deepEqual(47.01, gordon.balance);

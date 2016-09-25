@@ -3,8 +3,12 @@ var _ = require("lodash");
 var RecordStore = function(specs){
   this.name = specs['name'];
   this.city = specs['city'];
-  this.balance = specs['balance'];
-  this.inventory = specs['inventory'];
+  if (specs['balance'] === undefined){
+    this.balance = 0
+  }
+  else this.balance = specs['balance']
+  // this.balance = specs['balance'] || 0;
+  this.inventory = specs['inventory'] || [];
 }
 
 RecordStore.prototype = {
@@ -27,23 +31,52 @@ RecordStore.prototype = {
   },
 
   findRecordsByArtist: function(artist){
-    var records = [];
-    for (var item of this.inventory){
-      if(item.artist === artist){
-        records.push(item);
-      }
-    }
-    return records;
+    // var records = [];
+    // for (var item of this.inventory){
+    //   if(item.artist === artist){
+    //     records.push(item);
+    //   }
+    // }
+    // var newRecords = _.sortBy(records, ['title', 'price']);
+    // return newRecords;
+    records = _.filter(this.inventory, { 'artist': artist});
+    var newRecords = _.sortBy(records, ['title', 'price']);
+    return newRecords;
   },
 
-  findRecordsUnderPrice: function(price){
+  findRecordsByTitle: function(title){
+    records = _.filter(this.inventory, { 'title': artist});
+    var newRecords = _.sortBy(records, ['artist', 'price']);
+    return newRecords;
+  },
+
+  prettyListCallback: function(callback, param){
+    var records = callback(param);
+    var newArray = records.map(function(item){
+      return "Artist: " + item['artist'] + ", Title: " + item['title'] + ", Price: " + item['price'];
+    });
+    var result = newArray.join('\n');
+    return result;
+  },
+
+  prettyList: function(records){
+    var newList = _.sortBy(records, ['artist', 'price', 'title']);
+    var newArray = newList.map(function(item){
+      return "Artist: " + item['artist'] + ", Title: " + item['title'] + ", Price: " + item['price'];
+    });
+    var result = newArray.join('\n');
+    return result;
+  },
+
+  findRecordsUnderPrice: function(value){
     var records = [];
     for (var item of this.inventory){
-      if(item.price <= price){
+      if(item.price <= value){
         records.push(item);
       }
     }
-    return records;
+    var newRecords = _.sortBy(records, ['price', 'artist', 'title']);
+    return newRecords;
   },
 
   sellRecord: function(record){
@@ -63,6 +96,15 @@ RecordStore.prototype = {
 
   financialRecords: function(){
     return "Store balance: " + this.balance + "\nInventory value: " + this.inventoryValue();
+  },
+
+  buyRecordFromSeller: function(seller, record){
+    if (this.balance >= record.price){
+    seller.sellRecord(record); 
+    this.balance -= record.price;
+    record.price = Math.round((record.price * 1.4) * 100) / 100;
+    this.addRecord(record);
+  }
   }
  
 }
@@ -73,3 +115,4 @@ RecordStore.prototype = {
 
 
 module.exports = RecordStore;
+

@@ -1,8 +1,9 @@
 var assert = require('assert');
 var Record = require('../record.js');
 var RecordStore = require('../record_store.js');
+var RecordCollector = require('../record_collector.js');
 
-describe ('Record', function(){
+describe ('RecordStore', function(){
   var hero;
   var hannahsHits;
   var stop;
@@ -11,10 +12,12 @@ describe ('Record', function(){
 
   beforeEach(function(){
     hero = new Record({title: "Hero", artist: "Enrique Iglesias", price: 9.99});
-    hannahsHits = new RecordStore({name: "Hannah's Hits", city: "Seattle", balance: 200, inventory: [hero, stop]});
     stop = new Record({title: "Stop", artist: "Spice Girls", price: 1.99});
+    hannahsHits = new RecordStore({name: "Hannah's Hits", city: "Seattle", balance: 200, inventory: [hero, stop]});
+    charleysTunes = new RecordStore({name: "Charley's Tunes", city: "Aberdeen"});
     gone = new Record({title: "Gone", artist:"NSYNC", price: 2.99});
-    twoone = new Record({title: "2 Become 1", artist: "Spice Girls", price: 1.99})
+    twoone = new Record({title: "2 Become 1", artist: "Spice Girls", price: 1.99});
+    gordon = new RecordCollector({name: "Gordon", balance: 50, inventory: [gone]});
   })
 
   it("Should have a name", function(){
@@ -29,8 +32,16 @@ describe ('Record', function(){
     assert.deepEqual([hero, stop], hannahsHits.inventory);
   })
 
+  it("Should have empty array for inventory if none passed in", function(){
+    assert.deepEqual([], charleysTunes.inventory);
+  })
+
   it("Should have a balance", function(){
     assert.equal(200, hannahsHits.balance);
+  })
+
+  it("Should have balance of 0 if no balance passed in", function(){
+    assert.equal(0, charleysTunes.balance);
   })
 
   it("Can add a record", function(){
@@ -63,11 +74,27 @@ describe ('Record', function(){
 
   it("can find all records by artist", function(){
     hannahsHits.addRecord(twoone);
-    assert.deepEqual([stop, twoone], hannahsHits.findRecordsByArtist("Spice Girls"));
+    assert.deepEqual([twoone, stop], hannahsHits.findRecordsByArtist("Spice Girls"));
+    console.log(hannahsHits.prettyList(hannahsHits.findRecordsByArtist("Spice Girls")));
   })
 
   it("can find records under a price", function(){
     assert.deepEqual([stop], hannahsHits.findRecordsUnderPrice(5));
+    console.log(hannahsHits.prettyList(hannahsHits.findRecordsUnderPrice(5)));
+  })
+
+// WOULD LIKE TO KNOW HOW TO GET BELOW TO WORK - HAVE TWEAKED THE SYNTAX LOTS OF DIFFERENT WAYS BUT ALWAYS END UP WITH SOMETHING LIKE CALLBACK IS NOT DEFINED OR FINDRECORDSBYARTIST IS NOT DEFINED. THE BELOW IS NOT ERRORING AS IT'S WRITTEN NOW BUT IT'S NOT PRINTING ANYTHING AT ALL.
+  it("can print pretty lists for different functions via callback", function(){
+    hannahsHits.addRecord(twoone);
+    console.log(hannahsHits.prettyListCallback(hannahsHits.findRecordsByArtist, "Spice Girls"));
+  })
+
+  it("can buy from a collector and reset price", function(){
+    hannahsHits.buyRecordFromSeller(gordon, gone);
+    assert.deepEqual([hero, stop, gone], hannahsHits.inventory);
+    assert.deepEqual(4.19, gone.price);
+    assert.deepEqual([], gordon.inventory);
+    assert.deepEqual(52.99, gordon.balance);
   })
 
 
