@@ -98,11 +98,14 @@ RecordStore.prototype = {
     return "Store balance: " + this.balance + "\nInventory value: " + this.inventoryValue();
   },
 
-  buyRecordFromSeller: function(seller, record){
+  buyRecordFromSeller: function(seller, record, markup){
     if (this.balance >= record.price){
     seller.sellRecord(record); 
     this.balance -= record.price;
-    record.price = Math.round((record.price * 1.4) * 100) / 100;
+    if (markup === undefined){
+      markup = 1.4;
+    }
+    record.price = Math.round((record.price * markup) * 100) / 100;
     this.addRecord(record);
   }
   }

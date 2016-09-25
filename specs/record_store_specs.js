@@ -97,6 +97,14 @@ describe ('RecordStore', function(){
     assert.deepEqual(52.99, gordon.balance);
   })
 
+  it("can reset price by given markup", function(){
+    hannahsHits.buyRecordFromSeller(gordon, gone, 2);
+    assert.deepEqual([hero, stop, gone], hannahsHits.inventory);
+    assert.deepEqual(5.98, gone.price);
+    assert.deepEqual([], gordon.inventory);
+    assert.deepEqual(52.99, gordon.balance);
+  })
+
 
 
 })
